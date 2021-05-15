@@ -19,6 +19,11 @@ const restaurant = {
     console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}.`);
   },
 
+  orderPizza: function (mainIng, ...otherIng) {
+    console.log(mainIng);
+    console.log(otherIng);
+  },
+
   openingHours: {
     thu: {
       open: 12,
@@ -112,54 +117,135 @@ console.log(l, m, n); // (8 9 -1), setting defaults to -1
 //////////////////////////////////////////////
 // SPREAD OPERATOR
 
-const arr = [7, 8, 9];
-const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
-console.log(badNewArr);
-// Array(5) [ 1, 2, 7, 8, 9 ]
+// const arr = [7, 8, 9];
+// const badNewArr = [1, 2, arr[0], arr[1], arr[2]];
+// console.log(badNewArr);
+// // Array(5) [ 1, 2, 7, 8, 9 ]
 
-// using spread operator
-// expanding arr array into all of its elements
-// usage: when otherwise would use elements separated by commas
-const newArr = [1, 2, ...arr];
-console.log(newArr);
-// Array(5) [ 1, 2, 7, 8, 9 ]
-console.log(...newArr);
-// 1 2 7 8 9
-// same as console.log(1, 2, 7, 8, 9);
+// // using spread operator
+// // expanding arr array into all of its elements
+// // usage: when otherwise would use elements separated by commas
+// const newArr = [1, 2, ...arr];
+// console.log(newArr);
+// // Array(5) [ 1, 2, 7, 8, 9 ]
+// console.log(...newArr);
+// // 1 2 7 8 9
+// // same as console.log(1, 2, 7, 8, 9);
 
-const newMenu = [...restaurant.mainMenu, 'Gnocci'];
-console.log(newMenu);
+// const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+// console.log(newMenu);
 
-// copy array (shallow)
-const mainMenuCopy = [...restaurant.mainMenu];
+// // copy array (shallow)
+// const mainMenuCopy = [...restaurant.mainMenu];
 
-//join 2 arrays
-const combinedMenu = [...restaurant.mainMenu, ...restaurant.starterMenu];
-console.log(combinedMenu);
+// //join 2 arrays
+// const combinedMenu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+// console.log(combinedMenu);
 
-// spread operator works on iterables (including on objects since ES2018)
-// iterables: arrays, strings, maps, sets, NOT objects
-const str = `Thong`;
-const letters = [...str, '', 'L.'];
-console.log(letters);
-// Array(7) [ "T", "h", "o", "n", "g", "", "L." ]
-console.log(...str);
-// T h o n g
+// // spread operator works on iterables (including on objects since ES2018)
+// // iterables: arrays, strings, maps, sets, NOT objects
+// const str = `Thong`;
+// const letters = [...str, '', 'L.'];
+// console.log(letters);
+// // Array(7) [ "T", "h", "o", "n", "g", "", "L." ]
+// console.log(...str);
+// // T h o n g
 
-const ingredients = [
-  // prompt("Let's make pasta! Your first ingredient?"),
-  // prompt('Second ingredient?'),
-  // prompt('And last?'),
-];
-console.log(ingredients);
+// const ingredients = [
+//   // prompt("Let's make pasta! Your first ingredient?"),
+//   // prompt('Second ingredient?'),
+//   // prompt('And last?'),
+// ];
+// console.log(ingredients);
 
-restaurant.orderPasta(...ingredients);
+// restaurant.orderPasta(...ingredients);
 
-// Objects
-const newRestaurant = { ...restaurant, founder: `Mario`, foundedIn: 1969 };
-console.log(newRestaurant);
+// // Objects
+// const newRestaurant = { ...restaurant, founder: `Mario`, foundedIn: 1969 };
+// console.log(newRestaurant);
 
-const restaurantCopy = { ...restaurant };
-restaurantCopy.name = 'Ristorante Roma';
-console.log(restaurant.name);
-console.log(restaurantCopy.name);
+// const restaurantCopy = { ...restaurant };
+// restaurantCopy.name = 'Ristorante Roma';
+// console.log(restaurant.name);
+// console.log(restaurantCopy.name);
+
+//////////////////////////////////////////////
+// REST PATTERN
+
+// // This is SPREAD because ... is on the RIGHT of equal (=) sign
+// const arr = [1, 2, ...[3, 4]];
+
+// // This is REST because ... is on the LEFT of equal (=) sign
+// const [a, b, ...others] = [1, 2, 3, 4, 5];
+// console.log(a, b, others); // 1 2 Array(3) [ 3, 4, 5 ]
+
+// // The REST element must be the LAST element
+// const [pizza /*skipped*/, , risotto, ...otherFood] = [
+//   ...restaurant.mainMenu,
+//   ...restaurant.starterMenu,
+// ];
+
+// // mainMenu: ['Pizza', 'Pasta', 'Risotto'],
+// // starterMenu: ['Focaccia', 'Bruschetta', 'Garlic Bread', 'Caprese Salad'],
+// console.log(pizza, risotto, otherFood);
+
+// // Objects
+// console.log(restaurant.openingHours);
+// const { sat, ...weekdays } = restaurant.openingHours;
+// console.log(weekdays);
+
+// // 2) Functions
+
+// // REST parameters
+// const add = function (...numbers) {
+//   console.log(numbers);
+//   let sum = 0;
+//   for (let i = 0; i < numbers.length; i++) {
+//     sum += numbers[i];
+//   }
+//   console.log(sum);
+// };
+
+// add(2, 3);
+// add(5, 3, 7, 2);
+// add(8, 2, 5, 3, 2, 1, 4);
+
+// const x = [23, 5, 7];
+// add(...x); // pack using SPREAD
+
+// restaurant.orderPizza('mushrooms', 'onion', 'olives', 'spinach');
+
+//////////////////////////////////////////////
+// Short Circuiting (&& and ||)
+// Use ANY data type, return ANY data type, short-circuiting
+
+// OR operator
+console.log('---- OR ----');
+console.log(3 || 'Mocha');
+console.log('' || 'Mocha');
+console.log(true || 0);
+console.log(undefined || null);
+
+console.log(undefined || 0 || '' || 'Henlo' || 23 || null);
+// 'Henlo' is the first truthy value --> shortcircuit and printed
+
+const guestList1 = restaurant.numGuests ? restaurant.numGuests : 10;
+console.log(guestList1);
+
+const guestList2 = restaurant.numGuests || 10;
+console.log(guestList2);
+
+// AND operator
+console.log('---- AND ----');
+console.log(0 && 'Milk');
+console.log(7 && 'Milk');
+
+console.log('Hello' && 23 && null && 'Milk');
+// null is the first falsy value --> shortcircuit and returned
+
+if (restaurant.orderPizza) {
+  // check if oderPizza() exists
+  restaurant.orderPizza('mushrooms', 'spinach');
+}
+// alternative
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');
